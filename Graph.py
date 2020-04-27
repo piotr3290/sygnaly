@@ -20,20 +20,17 @@ class Graph:
         plt.close()
 
     @staticmethod
-    def draw_quantization(signal_analog, signal_quantization, path):
+    def draw_quantization(signal_analog, signal_quantization, path, ro=False):
         data_frame_analog = pd.DataFrame(data=([point.x, point.y] for point in signal_analog.points),
                                          columns=['time', 'signal'])
         data_frame_quantization = pd.DataFrame(data=([point.x, point.y] for point in signal_quantization.points),
                                                columns=['time', 'signal'])
-
-        # sns.relplot(x="time", y="signal", data=data_frame_analog, kind="line")
-        # sns.relplot(x="time", y="signal", data=data_frame_quantization)
-        # plt.savefig("signalGraph" + path)
-
         fig = plt.figure()
         plt.plot(data_frame_analog['time'], data_frame_analog['signal'])
-        plt.plot(data_frame_quantization['time'], data_frame_quantization['signal'], 'ro')
+        if ro:
+            plt.plot(data_frame_quantization['time'], data_frame_quantization['signal'], 'ro')
+        else:
+            plt.plot(data_frame_quantization['time'], data_frame_quantization['signal'])
         plt.xlabel('time [s]')
         plt.ylabel('signal')
         plt.savefig("signalGraph" + path)
-

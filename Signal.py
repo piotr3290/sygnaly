@@ -13,8 +13,8 @@ class Signal(object):
         self.is_discrete = is_discrete
 
     def calculate_points(self):
-        n = int(self.frequency * self.duration_time)
-        distance_between_points = self.duration_time / n
+        n = int(self.frequency * self.duration_time) + 1
+        distance_between_points = self.duration_time / (n - 1)
         for i in range(n):
             x = self.start_time + i * distance_between_points
             self.points.append(Point(x, self.f(x)))
@@ -90,8 +90,8 @@ class Signal(object):
 
     def sampling(self, Ts):
         result_points = []
-        n = int(1/Ts * self.duration_time)
-        distance_between_points = self.duration_time / n
+        n = int(1 / Ts * self.duration_time) + 1
+        distance_between_points = self.duration_time / (n - 1)
         for i in range(n):
             x = self.start_time + i * distance_between_points
             result_points.append(Point(x, self.f(x)))
@@ -99,11 +99,13 @@ class Signal(object):
 
     def quantization(self, Ts, n_bits):
         result_points = self.sampling(Ts)
-        hop = 2 * self.amplitude / (n_bits - 1)
+        mini = min(point.y for point in self.points)
+        maxi = max(point.y for point in self.points)
+        hop = (abs(maxi - mini)) / (pow(2, n_bits) - 1)
         hops = []
 
-        for i in range(0, n_bits):
-            hops.append(-self.amplitude + i * hop)
+        for i in range(0, pow(2, n_bits)):
+            hops.append(mini + i * hop)
 
         for i in range(0, len(result_points)):
             hop_index = 0
