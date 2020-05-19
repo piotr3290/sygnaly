@@ -16,8 +16,25 @@ from Graph import Graph
 import matplotlib.pyplot as plt
 import pandas as pd
 from Converter import Converter
+from Operation import Operation
+from LowFilter import LowFilter
 
 if __name__ == "__main__":
+    s = SinusoidalSignal(amplitude=1, start_time=0, duration_time=5, frequency=10, period=2)
+    s.calculate_points()
+    s2 = SinusoidalSignal(amplitude=1, start_time=0, duration_time=10, frequency=100, period=5)
+    s2.calculate_points()
+    splot = Operation.direct_correlation(s, s)
+    filtr = LowFilter(0, 100, 10, 25)
+    filtr.calculate_points()
+    filtr = Operation.high_filter(25, 10, 100)
+    # print(splot.points)
+    Graph.draw(Operation.convolution(Operation.hanning_window(filtr), s), 'test', 10)
+
+
+
+
+
     # s = StepNoiseSignal(amplitude=15, start_time=0, duration_time=20, frequency=10, probability=0.2)
     # s.calculate_points()
     # s2 = SinusoidalSignal(amplitude=15, start_time=0, duration_time=20, frequency=100, period=5)
@@ -47,19 +64,19 @@ if __name__ == "__main__":
     # print("Wartość skuteczna: " + s.root_mean_square().__str__())
     # Graph.draw(s, 'mul', 5)
 
-    s = SinusoidalSignal(amplitude=15, start_time=0, duration_time=1, frequency=100, period=1/7)
-    s.calculate_points()
-    ts = 1/3
-    samples = s.sampling(ts)
-    sam_signal = Signal(None, None, None, None)
-    sam_signal.points = samples
-    s2, s3 = Converter.quantization(s, ts, 3)
-    s4, s5, s6 = Converter.foh(s2), Converter.zoh(s2), Converter.sinc_recostruct(s2, 100, 40)
-
-    Graph.draw_quantization(s, s2, '_quant', True)
-    Graph.draw_quantization(s, s4, '_foh')
-    Graph.draw_quantization(s, s5, '_zoh')
-    Graph.draw_quantization(s, s6, '_sinc')
-    print("sredniokwadratowy: ", Converter.mean_squared_error(sam_signal, s2))
-    print("stosunek szum-sygnal: ", Converter.signal_to_noise_ratio(sam_signal, s2))
-    print("max-diff: ", Converter.maximum_difference(sam_signal, s2))
+    # s = SinusoidalSignal(amplitude=15, start_time=0, duration_time=1, frequency=1000, period=1/4)
+    # s.calculate_points()
+    # ts = 1/3
+    # samples = s.sampling(ts)
+    # sam_signal = Signal(None, None, None, None)
+    # sam_signal.points = samples
+    # s2, s3 = Converter.quantization(s, ts, 3)
+    # s4, s5, s6 = Converter.foh(s2), Converter.zoh(s2), Converter.sinc_recostruct(s2, 100, 50)
+    #
+    # Graph.draw_quantization(s, s2, 'quantsin4', True)
+    # Graph.draw_quantization(s, s4, 'fohsin')
+    # Graph.draw_quantization(s, s5, 'zohsin')
+    # Graph.draw_quantization(s, s6, 'sincsin4')
+    # print("sredniokwadratowy: ", Converter.mean_squared_error(sam_signal, s2))
+    # print("stosunek szum-sygnal: ", Converter.signal_to_noise_ratio(sam_signal, s2))
+    # print("max-diff: ", Converter.maximum_difference(sam_signal, s2))
