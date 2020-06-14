@@ -4,7 +4,7 @@ import math
 
 
 class Signal(object):
-    def __init__(self, amplitude, start_time, duration_time, frequency, is_discrete=True):
+    def __init__(self, amplitude, start_time, duration_time, frequency, is_discrete=False):
         self.amplitude = amplitude
         self.start_time = start_time
         self.duration_time = duration_time

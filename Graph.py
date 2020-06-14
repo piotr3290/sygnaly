@@ -14,10 +14,10 @@ class Graph:
             sns.relplot(x="time", y="signal", data=data_frame, kind="line")
         plt.savefig("signalGraph" + path)
         plt.close()
-        y = np.array(list(point.y for point in signal.points))
-        sns.distplot(y, bins=interval_amount, kde=False, hist_kws=dict(edgecolor="black", linewidth=1))
-        plt.savefig("signalHistogram" + path)
-        plt.close()
+        # y = np.array(list(point.y for point in signal.points))
+        # sns.distplot(y, bins=interval_amount, kde=False, hist_kws=dict(edgecolor="black", linewidth=1))
+        # plt.savefig("signalHistogram" + path)
+        # plt.close()
 
     @staticmethod
     def draw_quantization(signal_analog, signal_quantization, path, ro=False):

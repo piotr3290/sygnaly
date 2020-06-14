@@ -23,7 +23,8 @@ class Operation(object):
 
     @staticmethod
     def high_filter(m, f0, fp):
-        low_filter = LowFilter(0, fp, f0, m)
+        newf0 = fp / 2 - f0
+        low_filter = LowFilter(0, fp, newf0, m)
         low_filter.calculate_points()
         for i in range(m):
             low_filter.points[i].y *= 1 if i % 2 == 0 else -1

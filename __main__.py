@@ -20,20 +20,23 @@ from Operation import Operation
 from LowFilter import LowFilter
 
 if __name__ == "__main__":
-    s = SinusoidalSignal(amplitude=1, start_time=0, duration_time=5, frequency=10, period=2)
+    s = SinusoidalSignal(amplitude=1, start_time=0, duration_time=5, frequency=20, period=0.3)  # f=0.2
     s.calculate_points()
-    s2 = SinusoidalSignal(amplitude=1, start_time=0, duration_time=10, frequency=100, period=5)
+    s2 = SinusoidalSignal(amplitude=0.2, start_time=0, duration_time=5, frequency=20, period=5)  # f=5
     s2.calculate_points()
-    splot = Operation.direct_correlation(s, s)
-    filtr = LowFilter(0, 100, 10, 25)
+    # splot = Operation.convolution(s, s2)
+    # korelacja = Operation.direct_correlation(s, s2)
+    filtr = LowFilter(0, 50, 2, 25)
     filtr.calculate_points()
-    filtr = Operation.high_filter(25, 10, 100)
-    # print(splot.points)
-    Graph.draw(Operation.convolution(Operation.hanning_window(filtr), s), 'test', 10)
+    filtr2 = Operation.high_filter(31, 2, 50)
+    # # print(splot.points)
 
+    Graph.draw(s, 'poczatkowy3', 10)
+    Graph.draw(s2, 'szum3', 10)
+    s3 = s + s2
+    Graph.draw(s3, 'zaklocony3', 10)
 
-
-
+    Graph.draw(Operation.convolution(Operation.hanning_window(filtr2), s3), 'filtracjagornaokno3', 10)
 
     # s = StepNoiseSignal(amplitude=15, start_time=0, duration_time=20, frequency=10, probability=0.2)
     # s.calculate_points()
